@@ -12,6 +12,8 @@ table.table.table-hover
       td= @task.name
     tr
       th= Task.human_attribute_name(:description)
+      / 一部の危険なHTMLタグを除去(sanitizeオプション),hメソッドにより全てのタグを安全に表示。クロスサイトスクリプティング（XSS）防止
+      / wrapper_tagでdivで囲む。(標準はpタグ)
       td= simple_format(h(@task.description), {}, sanitize: false, wrapper_tag: "div")
     tr
       th= Task.human_attribute_name(:created_at)
@@ -19,3 +21,6 @@ table.table.table-hover
     tr
       th= Task.human_attribute_name(:updated_at)
       td= @task.updated_at
+
+= link_to '編集', edit_task_path, class: 'btn btn-primary mr-3'
+
