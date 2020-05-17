@@ -6,6 +6,9 @@ class Task < ApplicationRecord
 
   # アソシエーションの設定
   belongs_to :user
+
+  # scopeメソッドを使用しクエリー用メソッド(絞り込み条件)をカスタムメソッド(recent)として定義する
+  scope :recent, -> { order(created_at: :desc) }
   
   private
 
