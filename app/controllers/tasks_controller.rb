@@ -1,10 +1,12 @@
 class TasksController < ApplicationController
+  # before_actionメソッドでset_taskメソッドを各アクション前に実行(onlyオプションでactionを指定)
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
+
   def index
     @tasks = current_user.tasks.recent
   end
 
   def show
-    @task = current_user.tasks.find(params[:id])
   end
 
   def new
@@ -24,25 +26,26 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = current_user.tasks.find(params[:id])
   end
 
   def update
-    task = current_user.tasks.find(params[:id])
-    task.update!(task_params)
-    redirect_to tasks_url, notice: "タスク「#{task.name}」を更新しました。"
+    @task.update!(task_params)
+    redirect_to tasks_url, notice: "タスク「#{@task.name}」を更新しました。"
   end
 
   def destroy
-    task = current_user.tasks.find(params[:id])
-    task.destroy
-    redirect_to tasks_url
+    @task.destroy
+    redirect_to tasks_url, notice: "タスク「#{@task.name}」を削除しました。"
   end
 
   private
 
   def task_params
     params.require(:task).permit(:name, :description)
+  end
+  # 共通化したい処理を定義
+  def set_task
+    @task = current_user.tasks.find(params[:id])
   end
 
 end
