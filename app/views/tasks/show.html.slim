@@ -14,7 +14,7 @@ table.table.table-hover
       th= Task.human_attribute_name(:description)
       / 一部の危険なHTMLタグを除去(sanitizeオプション),hメソッドにより全てのタグを安全に表示。クロスサイトスクリプティング（XSS）防止
       / wrapper_tagでdivで囲む。(標準はpタグ)
-      td= simple_format(h(@task.description), {}, sanitize: false, wrapper_tag: "div")
+      td= auto_link(simple_format(h(@task.description), {}, sanitize: false, wrapper_tag: "div"))
     tr
       th= Task.human_attribute_name(:created_at)
       td= @task.created_at
