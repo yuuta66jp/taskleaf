@@ -33,6 +33,8 @@ class TasksController < ApplicationController
     end
 
     if @task.save
+      # deliver_nowメソッドで即時送信を行う(引数でTaskオブジェクトを渡す)
+      TaskMailer.creation_email(@task).deliver_now
       redirect_to @task, notice: "タスク「#{@task.name}」を登録しました。"
     else
       render :new
