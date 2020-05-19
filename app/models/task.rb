@@ -9,6 +9,16 @@ class Task < ApplicationRecord
 
   # scopeメソッドを使用しクエリー用メソッド(絞り込み条件)をカスタムメソッド(recent)として定義する
   scope :recent, -> { order(created_at: :desc) }
+
+  # 検索対象となるカラムを指定する(デフォルトでは全てのカラム)
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name created_at]
+  end
+  # 検索対象とする関連テーブルを指定できる(空の配列を返し意図しない関連を含めない)
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
+
   
   private
 
