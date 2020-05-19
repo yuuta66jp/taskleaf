@@ -13,11 +13,24 @@ class TasksController < ApplicationController
     @task = Task.new
   end
 
+  def confirm_new
+    @task = current_user.tasks.new(task_params)
+    # 内容の検証を行い問題があればエラーとともにnew画面を表示(問題がなければconfirm_new画面の表示)
+    render :new unless @task.valid?
+  end
+
   def create
     # margeメソッドでハッシュを結合(user_id情報)
     # @task = Task.new(task_params.merge(user_id: current_user.id))
     # 関連付けを利用し記述
     @task = current_user.tasks.new(task_params)
+
+    # 戻るボタンの場合内容を引き継いでnew画面の表示
+    if params[:back].present?
+      render :new
+      return
+    end
+
     if @task.save
       redirect_to @task, notice: "タスク「#{@task.name}」を登録しました。"
     else
