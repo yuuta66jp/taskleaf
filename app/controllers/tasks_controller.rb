@@ -14,6 +14,12 @@ class TasksController < ApplicationController
       format.csv { send_data @tasks.generate_csv, filename: "tasks-#{Time.zone.now.strftime('%Y%m%d%S')}.csv" }
     end
   end
+  
+  def import
+    # アップロードされたファイルオブジェクトを引数にimportメソッドを呼び出す
+    current_user.tasks.import(params[:file])
+    redirect_to tasks_url, notice: "タスクを追加しました"
+  end
 
   def show
   end

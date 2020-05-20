@@ -39,6 +39,18 @@ class Task < ApplicationRecord
     end
   end
 
+  def self.import(file)
+    # CSV.foreachでCSVファイルを一行ずつ読み込む
+    # headers: trueで1行目をヘッダとする
+    CSV.foreach(file.path, headers: true) do |row|
+      task = new
+      # to_hashメソッドでハッシュに変換
+      # sliceメソッドでcsv_attributesメソッドの戻り値の配列内の要素だけを取り出す("name", "description"など)
+      task.attributes = row.to_hash.slice(*csv_attributes)
+      task.save!
+    end
+  end
+
   
   private
 
