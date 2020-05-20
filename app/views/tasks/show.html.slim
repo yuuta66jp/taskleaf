@@ -16,6 +16,10 @@ table.table.table-hover
       / wrapper_tagでdivで囲む。(標準はpタグ)
       td= auto_link(simple_format(h(@task.description), {}, sanitize: false, wrapper_tag: "div"))
     tr
+      th= Task.human_attribute_name(:image)
+      / 後置ifで画像が添付されている場合に表示する
+      td= image_tag @task.image if @task.image.attached?
+    tr
       th= Task.human_attribute_name(:created_at)
       td= @task.created_at
     tr

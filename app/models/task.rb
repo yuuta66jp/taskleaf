@@ -6,6 +6,8 @@ class Task < ApplicationRecord
 
   # アソシエーションの設定
   belongs_to :user
+  # has_one_attachedメソッドで1対1で画像を紐付ける
+  has_one_attached :image
 
   # scopeメソッドを使用しクエリー用メソッド(絞り込み条件)をカスタムメソッド(recent)として定義する
   scope :recent, -> { order(created_at: :desc) }
