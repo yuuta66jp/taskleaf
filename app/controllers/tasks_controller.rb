@@ -50,6 +50,8 @@ class TasksController < ApplicationController
     if @task.save
       # deliver_nowメソッドで即時送信を行う(引数でTaskオブジェクトを渡す)
       TaskMailer.creation_email(@task).deliver_now
+      # perform_laterメソッドでログ出力のジョブを非同期で実行。処理ができる状態で開始される。
+      SampleJob.perform_later
       redirect_to @task, notice: "タスク「#{@task.name}」を登録しました。"
     else
       render :new
