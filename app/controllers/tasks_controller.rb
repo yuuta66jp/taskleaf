@@ -4,7 +4,8 @@ class TasksController < ApplicationController
 
   def index
     @q = current_user.tasks.ransack(params[:q])
-    @tasks = @q.result(distinct: true)
+    # ページ番号がparams[:page]で渡されそのページ番号に合うデータ範囲を渡す
+    @tasks = @q.result(distinct: true).page(params[:page])
 
     # respond_toでリクエストに応じて出力フォーマットを分ける
     respond_to do |format|
